@@ -7,8 +7,7 @@ CourseGen — это локальная платформа для автомат
 - Генерация курса в JSON на основе транскрипта видео
 - Сохранение пользователей и курсов в SQLite для быстрой разработки
 - API на FastAPI и статический фронтенд
-- Экспорт курса в HTML (подготовлено для PDF)
-- Скрипты для инициализации БД и создания админ-аккаунта
+- Экспорт курса в HTML 
 
 ## Requirements
 
@@ -54,13 +53,6 @@ uvicorn start:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Откройте `http://localhost:8000` в браузере.
-
-## Usage
-
-- Регистрация и вход: фронтенд страницы `frontend/login.html`, `frontend/register.html`.
-- Сгенерировать курс: POST `/api/generate-course` c полем `video_url`.
-- Список курсов пользователя: GET `/api/courses`.
-- Детали курса: GET `/api/courses/{course_id}`.
 
 ## Docker
 
