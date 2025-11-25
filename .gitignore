@@ -1,0 +1,44 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Environment files
+.env
+.env.*
+
+# Databases and generated content
+*.sqlite3
+*.db
+coursegen.db
+courses/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker compose override (local)
+docker-compose.override.yml
+
+# Secrets and keys
+*.pem
+*.key
+
+# Misc
+*.bak
+*.tmp

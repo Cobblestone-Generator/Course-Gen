@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Мои курсы - CourseGen</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#a3ff00",
+                        "cobblestone-blue": "#2C3E50",
+                        "icy-blue": "#AED9E0",
+                        "graphite-gray": "#7F8C8D",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-white font-display text-cobblestone-blue">
+    <div class="flex h-auto min-h-screen w-full flex-col">
+        <!-- TopNavBar -->
+        <header class="sticky top-0 z-10 w-full border-b border-graphite-gray/20 bg-white/80 backdrop-blur-md">
+            <div class="mx-auto flex max-w-7xl items-center justify-between whitespace-nowrap px-4 py-3 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-4">
+                    <div class="h-6 w-6 text-cobblestone-blue">
+                        <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold leading-tight tracking-tight text-cobblestone-blue">CourseGen</h2>
+                </div>
+                <nav class="hidden items-center gap-8 md:flex">
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/">Главная</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/my-courses">Мои курсы</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/generator">Генератор</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/support">Поддержка</a>
+                </nav>
+                <div class="flex items-center gap-2">
+                    <span id="user-email" class="text-sm text-graphite-gray hidden md:block"></span>
+                    <button onclick="logout()" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-100 px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
+                        <span class="truncate">Выйти</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+            <div class="layout-content-container flex flex-col">
+                <!-- PageHeading -->
+                <div class="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-graphite-gray/20 pb-6">
+                    <h1 class="text-3xl font-bold leading-tight tracking-tight text-cobblestone-blue sm:text-4xl">
+                        Мои курсы
+                    </h1>
+                    <div class="flex justify-start">
+                        <a href="/generator" class="flex h-12 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-xl bg-primary px-5 text-base font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
+                            <span class="material-symbols-outlined text-cobblestone-blue">add</span>
+                            <span class="truncate">Новый курс</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Courses Grid Container -->
+                <div id="courses-container">
+                    <!-- Courses will be loaded here dynamically -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="mt-12 text-center">
+                    <div class="mx-auto max-w-md">
+                        <div class="mb-4 text-6xl text-primary">🎯</div>
+                        <h3 class="mb-2 text-xl font-bold text-cobblestone-blue">Создайте свой первый курс</h3>
+                        <p class="mb-6 text-graphite-gray">Превратите любое YouTube видео в структурированный учебный курс</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Функция для открытия курса
+        function openCourse(courseId) {
+            console.log('Opening course:', courseId);
+            // Переходим на страницу курса
+            window.location.href = `/course-detail?id=${courseId}`;
+        }
+
+        // Функция для скачивания PDF
+        async function downloadCoursePdf(courseId) {
+            console.log('Downloading PDF for course:', courseId);
+            
+            const token = localStorage.getItem('access_token');
+            
+            if (!token) {
+                alert('❌ Для скачивания необходимо войти в систему');
+                return;
+            }
+            
+            try {
+                alert('⏳ Начинаем загрузку PDF...');
+                
+                const response = await fetch(`/api/courses/${courseId}/pdf`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `course_${courseId}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    
+                    alert('✅ PDF успешно скачан!');
+                } else {
+                    alert('❌ Ошибка при загрузке PDF');
+                }
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('❌ Ошибка сети при загрузке PDF');
+            }
+        }
+
+        // Проверка авторизации и загрузка курсов
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('access_token');
+            const userEmail = localStorage.getItem('user_email');
+            const userEmailElement = document.getElementById('user-email');
+            
+            if (token && userEmail && userEmailElement) {
+                userEmailElement.textContent = userEmail;
+                
+                // Загружаем курсы пользователя
+                loadUserCourses();
+            } else {
+                // Если не авторизован, перенаправляем на вход
+                window.location.href = '/login';
+            }
+        });
+
+        // Функция загрузки курсов
+        async function loadUserCourses() {
+            const token = localStorage.getItem('access_token');
+            
+            if (!token) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/courses', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayCourses(data.courses);
+                } else {
+                    console.error('Failed to load courses');
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('Error loading courses:', error);
+                showEmptyState();
+            }
+        }
+
+        // Функция отображения курсов
+        function displayCourses(courses) {
+            const emptyState = document.getElementById('empty-state');
+            const coursesContainer = document.getElementById('courses-container');
+            
+            if (!courses || courses.length === 0) {
+                showEmptyState();
+                return;
+            }
+            
+            // Скрываем состояние "нет курсов"
+            if (emptyState) {
+                emptyState.style.display = 'none';
+            }
+            
+            // Создаем сетку курсов
+            const coursesGrid = document.createElement('div');
+            coursesGrid.id = 'courses-grid';
+            coursesGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8';
+            
+            courses.forEach(course => {
+                const courseCard = createCourseCard(course);
+                coursesGrid.appendChild(courseCard);
+            });
+            
+            // Очищаем контейнер и добавляем сетку
+            coursesContainer.innerHTML = '';
+            coursesContainer.appendChild(coursesGrid);
+        }
+
+        // Функция показа состояния "нет курсов"
+        function showEmptyState() {
+            const emptyState = document.getElementById('empty-state');
+            const coursesContainer = document.getElementById('courses-container');
+            
+            if (emptyState) {
+                emptyState.style.display = 'block';
+            }
+            if (coursesContainer) {
+                coursesContainer.innerHTML = '';
+            }
+        }
+
+        // Функция создания карточки курса
+        function createCourseCard(course) {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl border border-graphite-gray/20 p-6 hover:shadow-lg transition-shadow';
+            
+            const createdDate = course.created_at ? new Date(course.created_at).toLocaleDateString('ru-RU') : 'Неизвестно';
+            
+            // Создаем красивый ID видео для отображения
+            let videoId = 'YouTube видео';
+            if (course.video_url) {
+                if (course.video_url.includes('youtube.com/watch?v=')) {
+                    videoId = course.video_url.split('youtube.com/watch?v=')[1]?.split('&')[0] || 'видео';
+                } else if (course.video_url.includes('youtu.be/')) {
+                    videoId = course.video_url.split('youtu.be/')[1]?.split('?')[0] || 'видео';
+                }
+            }
+            
+            card.innerHTML = `
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="text-lg font-bold text-cobblestone-blue">${course.title || 'Без названия'}</h3>
+                    <span class="material-symbols-outlined text-primary">school</span>
+                </div>
+                <p class="text-graphite-gray text-sm mb-4">${course.description || 'Автоматически сгенерированный курс'}</p>
+                <div class="text-xs text-graphite-gray mb-4">
+                    <div class="flex items-center gap-1 mb-1">
+                        <span class="material-symbols-outlined text-sm">video_library</span>
+                        <span>ID видео: ${videoId}</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">calendar_today</span>
+                        <span>Создан: ${createdDate}</span>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="openCourse(${course.id})" class="flex-1 bg-primary text-cobblestone-blue py-2 px-4 rounded-lg text-sm font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">visibility</span>
+                        Открыть
+                    </button>
+                    <button onclick="downloadCoursePdf(${course.id})" class="flex items-center gap-1 bg-gray-100 text-cobblestone-blue py-2 px-3 rounded-lg text-sm font-bold hover:scale-105 transition-transform">
+                        <span class="material-symbols-outlined text-sm">download</span>
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function logout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_email');
+            localStorage.removeItem('user_name');
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

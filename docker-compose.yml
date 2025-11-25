@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: coursegen_web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app:rw
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: uvicorn start:app --host 0.0.0.0 --port 8000 --reload
+
+# In this simple setup the host project directory is mounted into the container.
+# This is convenient for development: code changes on the host are reflected inside the container.
