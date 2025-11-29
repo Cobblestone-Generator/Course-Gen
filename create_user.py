@@ -1,14 +1,3 @@
-# create_user.py
-"""Secure helper to create or update an admin user.
-
-Behaviour:
-- If environment variables `ADMIN_EMAIL` and `ADMIN_PASSWORD` are set, the script
-  will use them to create/update the user.
-- Otherwise the script prompts interactively for email and password.
-
-This file no longer contains hardcoded credentials or salts.
-"""
-
 import os
 import sqlite3
 import hashlib
