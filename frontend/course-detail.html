@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Просмотр курса - CourseGen</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+
+        .pdf-preview img {
+            max-width: 180px;
+            max-height: 260px;
+            border-radius: 5px;
+            box-shadow: 0 1px 12px #ccc;
+            margin: 4px;
         }
     </style>
     <script>
@@ -28,34 +38,43 @@
                     fontFamily: {
                         "display": ["Space Grotesk", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
                 },
             },
         }
     </script>
 </head>
+
 <body class="bg-white font-display text-cobblestone-blue">
     <div class="flex h-auto min-h-screen w-full flex-col">
         <!-- TopNavBar -->
         <header class="sticky top-0 z-10 w-full border-b border-graphite-gray/20 bg-white/80 backdrop-blur-md">
-            <div class="mx-auto flex max-w-7xl items-center justify-between whitespace-nowrap px-4 py-3 sm:px-6 lg:px-8">
+            <div
+                class="mx-auto flex max-w-7xl items-center justify-between whitespace-nowrap px-4 py-3 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-4">
                     <div class="h-6 w-6 text-cobblestone-blue">
                         <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+                            <path
+                                d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z">
+                            </path>
                         </svg>
                     </div>
                     <h2 class="text-xl font-bold leading-tight tracking-tight text-cobblestone-blue">CourseGen</h2>
                 </div>
                 <nav class="hidden items-center gap-8 md:flex">
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/">Главная</a>
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/my-courses">Мои курсы</a>
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/generator">Генератор</a>
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/support">Поддержка</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary"
+                        href="/">Главная</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary"
+                        href="/my-courses">Мои курсы</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary"
+                        href="/generator">Генератор</a>
+                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary"
+                        href="/support">Поддержка</a>
                 </nav>
                 <div class="flex items-center gap-2">
                     <span id="user-email" class="text-sm text-graphite-gray hidden md:block"></span>
-                    <button onclick="logout()" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-100 px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
+                    <button onclick="logout()"
+                        class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-100 px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
                         <span class="truncate">Выйти</span>
                     </button>
                 </div>
@@ -66,7 +85,8 @@
             <div class="layout-content-container flex flex-col">
                 <!-- Back Button -->
                 <div class="mb-6">
-                    <button onclick="goBack()" class="flex items-center gap-2 text-graphite-gray hover:text-cobblestone-blue transition-colors">
+                    <button onclick="goBack()"
+                        class="flex items-center gap-2 text-graphite-gray hover:text-cobblestone-blue transition-colors">
                         <span class="material-symbols-outlined">arrow_back</span>
                         Назад к моим курсам
                     </button>
@@ -74,36 +94,32 @@
 
                 <!-- Course Header -->
                 <div class="mb-8 text-center">
-                    <h1 id="course-title" class="mb-4 text-3xl font-bold leading-tight tracking-tight text-cobblestone-blue sm:text-4xl">
+                    <h1 id="course-title"
+                        class="mb-4 text-3xl font-bold leading-tight tracking-tight text-cobblestone-blue sm:text-4xl">
                         Загрузка...
                     </h1>
                     <p id="course-description" class="text-lg text-graphite-gray">Загрузка описания...</p>
                 </div>
 
-                <!-- Course Video -->
-                <div class="mb-8">
-                    <h2 class="mb-4 text-2xl font-bold text-cobblestone-blue">Исходное видео</h2>
-                    <div id="video-container" class="bg-gray-100 rounded-xl p-4 text-center">
-                        <p class="text-graphite-gray">Ссылка на видео: <span id="video-url" class="text-primary"></span></p>
-                    </div>
-                </div>
-
-                <!-- Course Content -->
-                <div id="course-content" class="space-y-8">
-                    <div class="text-center py-12">
-                        <div class="text-6xl mb-4">📚</div>
-                        <h3 class="text-xl font-bold text-cobblestone-blue mb-2">Загрузка содержания курса...</h3>
-                        <p class="text-graphite-gray">Пожалуйста, подождите</p>
-                    </div>
+                <!-- Dynamic Content: PDF PREVIEW, VIDEO, MAIN COURSE -->
+                <div id="dynamic-course-blocks">
+                    <!-- Will be filled by JS -->
                 </div>
 
                 <!-- Course Actions -->
                 <div class="mt-12 flex justify-center gap-4">
-                    <button onclick="downloadCoursePdf()" class="flex items-center gap-2 bg-primary text-cobblestone-blue py-3 px-6 rounded-lg font-bold hover:scale-105 transition-transform">
+                    <button onclick="downloadCoursePdf()"
+                        class="flex items-center gap-2 bg-primary text-cobblestone-blue py-3 px-6 rounded-lg font-bold hover:scale-105 transition-transform">
                         <span class="material-symbols-outlined">download</span>
                         Скачать PDF
                     </button>
-                    <button onclick="goBack()" class="flex items-center gap-2 bg-gray-100 text-cobblestone-blue py-3 px-6 rounded-lg font-bold hover:scale-105 transition-transform">
+                    <button id="delete-course-btn"
+                        class="flex items-center gap-2 bg-red-600 text-white py-3 px-6 rounded-lg font-bold hover:scale-105 transition-transform">
+                        <span class="material-symbols-outlined">delete</span>
+                        Удалить курс
+                    </button>
+                    <button onclick="goBack()"
+                        class="flex items-center gap-2 bg-gray-100 text-cobblestone-blue py-3 px-6 rounded-lg font-bold hover:scale-105 transition-transform">
                         <span class="material-symbols-outlined">arrow_back</span>
                         Назад
                     </button>
@@ -114,37 +130,30 @@
 
     <script>
         let currentCourseId = null;
-
+        let showingAllPdfSlides = false;
         // Get course ID from URL
         function getCourseIdFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('id');
         }
 
-        // Load course details
         async function loadCourseDetails() {
             const courseId = getCourseIdFromUrl();
             if (!courseId) {
                 showError('ID курса не указан');
                 return;
             }
-
             currentCourseId = courseId;
-            
             const token = localStorage.getItem('access_token');
             if (!token) {
                 showError('Необходимо войти в систему');
                 setTimeout(() => window.location.href = '/login', 2000);
                 return;
             }
-
             try {
                 const response = await fetch(`/api/courses/${courseId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
-
                 if (response.ok) {
                     const course = await response.json();
                     displayCourseDetails(course);
@@ -158,128 +167,102 @@
             }
         }
 
-        // Display course details
         function displayCourseDetails(course) {
-            // Update header
             document.getElementById('course-title').textContent = course.title || 'Без названия';
             document.getElementById('course-description').textContent = course.description || 'Описание отсутствует';
-            
-            // Update video info
-            const videoUrlElement = document.getElementById('video-url');
-            if (course.video_url) {
-                videoUrlElement.innerHTML = `<a href="${course.video_url}" target="_blank" class="text-primary hover:underline">${course.video_url}</a>`;
-            }
 
-            // Update course content
-            const contentContainer = document.getElementById('course-content');
-            
-            try {
-                const courseContent = typeof course.content === 'string' ? JSON.parse(course.content) : course.content;
-                
-                if (courseContent && courseContent.sections) {
-                    let contentHTML = '';
-                    
-                    // Add sections
-                    courseContent.sections.forEach((section, index) => {
-                        contentHTML += `
-                            <div class="bg-white rounded-xl border border-graphite-gray/20 p-6">
-                                <h3 class="text-xl font-bold text-cobblestone-blue mb-4 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">menu_book</span>
-                                    ${section.title || `Раздел ${index + 1}`}
-                                </h3>
-                                <p class="text-graphite-gray mb-4">${section.content || 'Содержание раздела'}</p>
-                                
-                                ${section.key_points && section.key_points.length > 0 ? `
-                                    <div class="bg-primary/5 rounded-lg p-4">
-                                        <h4 class="font-bold text-cobblestone-blue mb-2">Ключевые моменты:</h4>
-                                        <ul class="list-disc list-inside space-y-1 text-graphite-gray">
-                                            ${section.key_points.map(point => `<li>${point}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `;
-                    });
+            const contentEl = document.getElementById('dynamic-course-blocks');
+            let contentHTML = '';
 
-                    // Add quizzes if available
-                    if (courseContent.quizzes && courseContent.quizzes.length > 0) {
-                        contentHTML += `
-                            <div class="bg-white rounded-xl border border-graphite-gray/20 p-6">
-                                <h3 class="text-xl font-bold text-cobblestone-blue mb-4 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">quiz</span>
-                                    Тесты для проверки знаний
-                                </h3>
-                                <div class="space-y-4">
-                                    ${courseContent.quizzes.map((quiz, index) => `
-                                        <div class="border border-graphite-gray/20 rounded-lg p-4">
-                                            <h4 class="font-bold text-cobblestone-blue mb-3">Вопрос ${index + 1}: ${quiz.question}</h4>
-                                            <div class="space-y-2">
-                                                ${quiz.options.map((option, optIndex) => `
-                                                    <div class="flex items-center gap-2">
-                                                        <input type="radio" id="q${index}_opt${optIndex}" name="q${index}" class="text-primary">
-                                                        <label for="q${index}_opt${optIndex}" class="text-graphite-gray">${option}</label>
-                                                    </div>
-                                                `).join('')}
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }
+            let courseContent = typeof course.content === 'string' ? JSON.parse(course.content) : course.content;
 
-                    // Add summary if available
-                    if (courseContent.summary) {
-                        contentHTML += `
-                            <div class="bg-primary/5 rounded-xl p-6">
-                                <h3 class="text-xl font-bold text-cobblestone-blue mb-4 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-primary">summarize</span>
-                                    Итоговое резюме
-                                </h3>
-                                <p class="text-graphite-gray">${courseContent.summary}</p>
-                            </div>
-                        `;
-                    }
-
-                    contentContainer.innerHTML = contentHTML;
-                } else {
-                    contentContainer.innerHTML = `
-                        <div class="text-center py-12">
-                            <div class="text-6xl mb-4">📝</div>
-                            <h3 class="text-xl font-bold text-cobblestone-blue mb-2">Контент курса готовится</h3>
-                            <p class="text-graphite-gray">Содержание курса будет доступно в ближайшее время</p>
+            const PREVIEW_COUNT = 3; // показывать только 3 картинки по умолчанию
+            // Исходное видео: только если есть video_url и он не пуст
+            if (course.video_url && course.video_url.trim() !== "") {
+                contentHTML += `
+                    <div class="mb-8">
+                        <h2 class="mb-4 text-2xl font-bold text-cobblestone-blue">Исходное видео</h2>
+                        <div class="bg-gray-100 rounded-xl p-4 text-center">
+                            <p class="text-graphite-gray">Ссылка на видео: <a href="${course.video_url}" target="_blank" class="text-primary hover:underline">${course.video_url}</a></p>
                         </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error parsing course content:', error);
-                contentContainer.innerHTML = `
-                    <div class="text-center py-12">
-                        <div class="text-6xl mb-4">⚠️</div>
-                        <h3 class="text-xl font-bold text-cobblestone-blue mb-2">Ошибка загрузки контента</h3>
-                        <p class="text-graphite-gray">Не удалось загрузить содержание курса</p>
                     </div>
                 `;
             }
+
+            // Секции курса
+            if (courseContent.sections && courseContent.sections.length > 0) {
+                courseContent.sections.forEach((section, index) => {
+                    contentHTML += `
+                        <div class="bg-white rounded-xl border border-graphite-gray/20 p-6 mb-6">
+                            <h3 class="text-xl font-bold text-cobblestone-blue mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">menu_book</span>
+                                ${section.title || `Раздел ${index + 1}`}
+                            </h3>
+                            <p class="text-graphite-gray mb-2">${section.content || 'Содержание раздела'}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            // Тесты
+            if (courseContent.quizzes && courseContent.quizzes.length > 0) {
+                contentHTML += `
+                    <div class="bg-white rounded-xl border border-graphite-gray/20 p-6 mb-6">
+                        <h3 class="text-xl font-bold text-cobblestone-blue mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">quiz</span>
+                            Тесты для проверки знаний
+                        </h3>
+                        <div class="space-y-4">
+                            ${courseContent.quizzes.map((quiz, index) => `
+                                <div class="border border-graphite-gray/20 rounded-lg p-4">
+                                    <h4 class="font-bold text-cobblestone-blue mb-3">Вопрос ${index + 1}: ${quiz.question}</h4>
+                                    <div class="space-y-2">
+                                        ${quiz.options.map((option, optIndex) => `
+                                            <div class="flex items-center gap-2">
+                                                <input type="radio" id="q${index}_opt${optIndex}" name="q${index}" class="text-primary">
+                                                <label for="q${index}_opt${optIndex}" class="text-graphite-gray">${option}</label>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Итоговое резюме
+            if (courseContent.summary) {
+                contentHTML += `
+                    <div class="bg-primary/5 rounded-xl p-6 mb-8">
+                        <h3 class="text-xl font-bold text-cobblestone-blue mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">summarize</span>
+                            Итоговое резюме
+                        </h3>
+                        <p class="text-graphite-gray">${courseContent.summary}</p>
+                    </div>
+                `;
+            }
+
+            contentEl.innerHTML = contentHTML;
+            const showAllBtn = document.getElementById('show-all-pdf-btn');
+            if (showAllBtn) {
+                showAllBtn.onclick = function () {
+                }
+            }
         }
 
-        // Download PDF
         async function downloadCoursePdf() {
             if (!currentCourseId) return;
-            
             const token = localStorage.getItem('access_token');
             if (!token) {
                 showError('Необходимо войти в систему');
                 return;
             }
-
             try {
                 const response = await fetch(`/api/courses/${currentCourseId}/pdf`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
-
                 if (response.ok) {
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
@@ -290,7 +273,6 @@
                     a.click();
                     window.URL.revokeObjectURL(url);
                     document.body.removeChild(a);
-                    
                     showResult('✅ PDF успешно скачан!', 'success');
                 } else {
                     showError('Ошибка при загрузке PDF');
@@ -301,12 +283,35 @@
             }
         }
 
-        // Navigation
+        async function deleteCourse() {
+            if (!currentCourseId) return;
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                showError('Необходимо войти в систему');
+                return;
+            }
+            if (!confirm('Вы уверены, что хотите удалить этот курс? Действие необратимо!')) return;
+            try {
+                const response = await fetch(`/api/courses/${currentCourseId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showResult('✅ Курс успешно удалён!', 'success');
+                    setTimeout(goBack, 1200);
+                } else {
+                    showError('Ошибка при удалении: ' + (data.detail || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                showError('Ошибка сети при удалении курса');
+            }
+        }
+
         function goBack() {
             window.location.href = '/my-courses';
         }
 
-        // Utility functions
         function showError(message) {
             showResult(message, 'error');
         }
@@ -315,12 +320,10 @@
             alert(`${type === 'error' ? '❌' : '✅'} ${message}`);
         }
 
-        // Update auth status
         function updateAuthStatus() {
             const token = localStorage.getItem('access_token');
             const userEmail = localStorage.getItem('user_email');
             const userEmailElement = document.getElementById('user-email');
-            
             if (token && userEmail && userEmailElement) {
                 userEmailElement.textContent = userEmail;
             } else {
@@ -335,10 +338,11 @@
             window.location.href = '/';
         }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             updateAuthStatus();
             loadCourseDetails();
+            const delBtn = document.getElementById('delete-course-btn');
+            if (delBtn) delBtn.onclick = deleteCourse;
         });
     </script>
 </body>
