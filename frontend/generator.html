@@ -81,13 +81,22 @@
                     <p class="text-lg text-graphite-gray">Вставьте ссылку на YouTube видео и мы создадим полноценный учебный курс</p>
                 </div>
 
-                <!-- URL Input Form -->
+                <!-- Единая форма со значками -->
                 <div class="mb-12" id="generator-form">
                 <label class="flex flex-col">
                     <div class="mb-4 flex w-full items-stretch rounded-xl shadow-sm">
+                        <!-- Значок ссылки -->
                         <div class="flex items-center justify-center rounded-l-xl border border-r-0 border-graphite-gray/20 bg-gray-50 px-4">
                             <span class="material-symbols-outlined text-graphite-gray">link</span>
                         </div>
+                        <!-- Значок PDF (при клике открывается обзор файлов) -->
+                        <div class="flex items-center justify-center border border-r-0 border-gray-200 bg-gray-50 px-3 cursor-pointer hover:bg-icy-blue transition"
+                             id="pdf-upload-icon"
+                             title="Выберите PDF для курса">
+                            <span class="material-symbols-outlined text-cobblestone-blue">picture_as_pdf</span>
+                            <input type="file" accept="application/pdf" id="pdf-upload-input" class="hidden" />
+                        </div>
+                        <!-- поле ввода для ссылки -->
                         <input class="flex w-full min-w-0 flex-1 resize-none overflow-hidden border border-graphite-gray/20 bg-white px-4 text-base font-normal leading-normal text-cobblestone-blue placeholder:text-graphite-gray focus:outline-none focus:ring-2 focus:ring-primary/50" 
                             placeholder="Вставьте ссылку на YouTube видео..." 
                             value=""
@@ -143,22 +152,26 @@
 
     <script src="/static/generate.js"></script>
     <script>
-        // Дополнительный скрипт для generator.html
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Generator page loaded');
-            
-            // Принудительно добавляем обработчик для кнопки
+            // обработчик для основной кнопки
             const createButton = document.getElementById('create-course');
             if (createButton) {
-                console.log('Adding click handler to create button');
                 createButton.addEventListener('click', handleCourseCreation);
             }
-            
+            // обработчик для pdf-иконки
+            document.getElementById('pdf-upload-icon').addEventListener('click', function () {
+                document.getElementById('pdf-upload-input').click();
+            });
+            document.getElementById('pdf-upload-input').addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                handleCourseCreationFromPDF(file);
+            });
+
             // Проверка авторизации
             const token = localStorage.getItem('access_token');
             const userEmail = localStorage.getItem('user_email');
             const navButtons = document.querySelector('.flex.items-center.gap-2');
-            
             if (token && userEmail && navButtons) {
                 navButtons.innerHTML = `
                     <span class="text-sm text-graphite-gray">${userEmail}</span>
@@ -167,13 +180,43 @@
                     </button>
                 `;
             }
-            
-            // Фокус на поле ввода URL
             const videoInput = document.getElementById('video-url-input');
             if (videoInput) {
                 videoInput.focus();
             }
         });
+
+        // Функция для создания курса из PDF
+        window.handleCourseCreationFromPDF = function(file) {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                alert('Пожалуйста, войдите в систему для создания курсов');
+                setTimeout(() => { window.location.href = '/login'; }, 2000);
+                return;
+            }
+            const formData = new FormData();
+            formData.append('pdf', file);
+            fetch('/api/generate-course-from-pdf', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(({ ok, data }) => {
+                    if (ok && data.success) {
+                        alert(`✅ Курс "${data.title}" успешно создан! Перенаправление...`);
+                        setTimeout(() => {
+                            window.location.href = '/my-courses';
+                        }, 2000);
+                    } else {
+                        alert('❌ Ошибка при создании курса из PDF: ' + (data.detail || 'Неизвестная ошибка'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Network error:', error);
+                    alert('❌ Ошибка сети при создании курса');
+                });
+        };
     </script>
 </body>
 </html>
