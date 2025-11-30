@@ -15,3 +15,6 @@ pdfkit==1.0.0
 openai-whisper>=20231117
 pytube>=15.0.0
 youtube-transcript-api>=0.6.0
+pyPDF2==3.0.1
+
+python-jose
