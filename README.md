@@ -20,7 +20,7 @@ CourseGen — это локальная платформа для автомат
 1. Клонируйте репозиторий
 
 ```powershell
-git clone <your-repo-url>
+git clone https://github.com/Art0r1a50510/Course-Gen
 cd coursegen
 ```
 
