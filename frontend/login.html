@@ -38,28 +38,30 @@
     <div class="flex min-h-screen w-full flex-col">
         <!-- TopNavBar -->
         <header class="sticky top-0 z-10 w-full border-b border-graphite-gray/20 bg-white/80 backdrop-blur-md">
-            <div class="mx-auto flex max-w-7xl items-center justify-between whitespace-nowrap px-4 py-3 sm:px-6 lg:px-8">
-                <div class="flex items-center gap-4">
-                    <div class="h-6 w-6 text-cobblestone-blue">
-                        <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
-                        </svg>
+            <div class="relative mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <!-- Логотип слева -->
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-xl font-bold leading-tight tracking-tight text-cobblestone-blue">CourseGen</h2>
                     </div>
-                    <h2 class="text-xl font-bold leading-tight tracking-tight text-cobblestone-blue">CourseGen</h2>
-                </div>
-                <nav class="hidden items-center gap-8 md:flex">
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/">Главная</a>
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/my-courses">Мои курсы</a>
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/generator">Генератор</a>
-                    <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary" href="/support">Поддержка</a>
-                </nav>
-                <div class="flex items-center gap-2">
-                    <a href="/register" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
-                        <span class="truncate">Регистрация</span>
-                    </a>
-                    <a href="/login" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-100 px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
-                        <span class="truncate">Вход</span>
-                    </a>
+
+                    <!-- Навигация по центру (абсолютное позиционирование) -->
+                    <nav class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-8">
+                        <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary hidden md:block" href="/">Главная</a>
+                        <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary hidden md:block" href="/my-courses">Мои курсы</a>
+                        <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary hidden md:block" href="/generator">Генератор</a>
+                        <a class="text-sm font-medium text-cobblestone-blue transition-colors hover:text-primary hidden md:block" href="/support">Поддержка</a>
+                    </nav>
+
+                    <!-- Кнопки справа -->
+                    <div id="auth-buttons" class="flex items-center gap-2">
+                        <a href="/register" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
+                            <span class="truncate">Регистрация</span>    
+                        </a>
+                        <a href="/login" class="flex h-10 min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gray-100 px-4 text-sm font-bold leading-normal tracking-wide text-cobblestone-blue transition-transform hover:scale-105">
+                            <span class="truncate">Вход</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
