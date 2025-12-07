@@ -23,7 +23,8 @@ app.add_middleware(
 )
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../frontend/static"))
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Create database tables
 models.Base.metadata.create_all(bind=database.engine)

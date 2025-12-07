@@ -24,6 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static files
+static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "frontend/static"))
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
 
 def init_database():
     print("🔧 Инициализация базы данных...")
